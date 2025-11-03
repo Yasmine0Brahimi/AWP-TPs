@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Add Student</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -14,68 +14,30 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="attendance.html">Attendance List</a></li>
       <li><a href="add-student.html" class="active">Add Student</a></li>
-      <li><a href="#">Reports</a></li>
+      <li><a href="charts.html">Charts</a></li>
       <li><a href="#">Logout</a></li>
     </ul>
   </nav>
 
   <main class="content">
     <h1>Add New Student</h1>
-    <form class="form-container">
+    <form id="studentForm" class="form-container" novalidate>
       <label for="studentId">Student ID</label>
-      <input type="text" id="studentId" placeholder="Enter Student ID" required>
+      <input type="text" id="studentId" placeholder="Enter Student ID" required />
 
       <label for="lastName">Last Name</label>
-      <input type="text" id="lastName" placeholder="Enter Last Name" required>
+      <input type="text" id="lastName" placeholder="Enter Last Name" required />
 
       <label for="firstName">First Name</label>
-      <input type="text" id="firstName" placeholder="Enter First Name" required>
+      <input type="text" id="firstName" placeholder="Enter First Name" required />
 
       <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Enter Email" required>
+      <input type="email" id="email" placeholder="Enter Email" required />
 
       <button type="submit">Submit</button>
     </form>
   </main>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".form-container");
 
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const id = document.getElementById("studentId");
-    const lastName = document.getElementById("lastName");
-    const firstName = document.getElementById("firstName");
-    const email = document.getElementById("email");
-    document.querySelectorAll(".error-message").forEach(el => el.remove());
-
-    let valid = true;
-
-    function error(field, message) {
-      const span = document.createElement("span");
-      span.classList.add("error-message");
-      span.textContent = message;
-      span.style.color = "#c0392b";
-      field.insertAdjacentElement("afterend", span);
-      valid = false;
-    }
-
-    if (!/^[0-9]+$/.test(id.value)) error(id, "Student ID must contain only digits.");
-    if (!/^[A-Za-z]+$/.test(lastName.value)) error(lastName, "Last name must contain letters only.");
-    if (!/^[A-Za-z]+$/.test(firstName.value)) error(firstName, "First name must contain letters only.");
-    if (!/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(email.value)) {
-  showError(email, "Invalid email format");
-  valid = false;
-}
-
-
-    if (valid) {
-      alert("New student added successfully!");
-      form.reset();
-    }
-  });
-});
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>

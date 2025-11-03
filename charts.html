@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Attendance Charts</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Attendance System</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="attendance.html">Attendance List</a></li>
+      <li><a href="add-student.html">Add Student</a></li>
+      <li><a href="charts.html" class="active">Charts</a></li>
+      <li><a href="#">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="content">
+    <h1>Attendance Overview</h1>
+    <p class="instructions">This visualization uses the attendance table counts to build a filled inner pie (total students) and an outer donut representing Present/Absent/Participated distribution.</p>
+
+    <div class="chart-wrapper">
+      <canvas id="comboChart" aria-label="Attendance chart"></canvas>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

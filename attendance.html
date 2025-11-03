@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attendance List</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Attendance Table</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <nav class="navbar">
@@ -13,109 +13,87 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="attendance.html" class="active">Attendance List</a></li>
       <li><a href="add-student.html">Add Student</a></li>
-      <li><a href="#">Reports</a></li>
+      <li><a href="charts.html">Charts</a></li>
       <li><a href="#">Logout</a></li>
     </ul>
   </nav>
 
   <main class="content">
-    <h1>Interactive Attendance Table</h1>
-    <p class="instructions">
-      Click on session cells to mark attendance (✓ = Present, ✗ = Absent).  
-      Click on participation cells to mark activity (Y = Participated, N = Not Participated).
-    </p>
+    <h1>Attendance and Participation</h1>
+    <p class="instructions">Click a session cell to toggle present (✓). Table auto-calculates absences, participation counts and status color.</p>
 
     <div class="table-container">
-      <table id="attendanceTable">
+      <table id="attendanceTable" aria-label="Attendance table">
         <thead>
           <tr>
-            <th>Last Name</th><th>First Name</th>
-            <th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th colspan="6">Sessions</th>
+            <th colspan="6">Participation</th>
             <th>Absences</th>
+            <th>Participation</th>
+            <th>Message</th>
+          </tr>
+          <tr>
+            <th></th><th></th>
+            <th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th>
             <th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th><th>P6</th>
-            <th>Participation</th><th>Message</th>
+            <th></th><th></th><th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Benali</td><td>Samir</td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-            <td>0</td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-            <td>0</td><td></td>
+            <td>Ahmed</td>
+            <td>Sara</td>
+            <td>✓</td><td>✓</td><td></td><td></td><td></td><td></td>
+            <td>✓</td><td></td><td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td>
           </tr>
           <tr>
-            <td>Khadra</td><td>Yasmine</td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-            <td>0</td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-            <td>0</td><td></td>
+            <td>Yacine</td>
+            <td>Ali</td>
+            <td>✓</td><td></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td>
+            <td>✓</td><td>✓</td><td>✓</td><td></td><td>✓</td><td>✓</td>
+            <td></td><td></td><td></td>
           </tr>
           <tr>
-            <td>Houcine</td><td>Rania</td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-            <td>0</td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-            <td>0</td><td></td>
+            <td>Houcine</td>
+            <td>Rania</td>
+            <td>✓</td><td>✓</td><td></td><td>✓</td><td>✓</td><td></td>
+            <td></td><td>✓</td><td>✓</td><td></td><td></td><td></td>
+            <td></td><td></td><td></td>
           </tr>
         </tbody>
       </table>
     </div>
   </main>
-
-  <script>
+<script>
   document.addEventListener("DOMContentLoaded", () => {
-    const table = document.getElementById("attendanceTable");
+    const tableBody = document.querySelector("#attendanceTable tbody");
+    const students = JSON.parse(localStorage.getItem("students") || "[]");
 
-    table.querySelectorAll("tbody tr").forEach(row => {
-      row.querySelectorAll("td").forEach((cell, i) => {
-        if ((i >= 2 && i <= 7) || (i >= 9 && i <= 14)) {
-          cell.addEventListener("click", () => {
-            if (i >= 2 && i <= 7) {
-              if (cell.textContent === "✗") cell.textContent = "✓";
-              else if (cell.textContent === "✓") cell.textContent = "";
-              else cell.textContent = "✗";
-            } else if (i >= 9 && i <= 14) {
-              if (cell.textContent === "Y") cell.textContent = "N";
-              else if (cell.textContent === "N") cell.textContent = "";
-              else cell.textContent = "Y";
-            }
-            updateRow(row);
-          });
-        }
-      });
-      updateRow(row);
+    if (students.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="17">No students added yet.</td></tr>`;
+      return;
+    }
+
+    students.forEach(s => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${s.lastName}</td>
+        <td>${s.firstName}</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>0</td><td>0</td><td>New Student</td>
+      `;
+      tableBody.appendChild(row);
     });
 
-    function updateRow(row) {
-      const cells = row.querySelectorAll("td");
-      const sessions = Array.from(cells).slice(2, 8);
-      const participation = Array.from(cells).slice(9, 15);
-
-      const absCount = sessions.filter(c => c.textContent === "✗").length;
-      const partCount = participation.filter(c => c.textContent === "Y").length;
-
-      cells[8].textContent = absCount;
-      cells[15].textContent = partCount;
-
-      const msgCell = cells[16];
-      msgCell.textContent = getMessage(absCount, partCount);
-
-      if (absCount >= 5) row.className = "danger";
-      else if (absCount >= 3) row.className = "warning";
-      else row.className = "success";
-    }
-
-    function getMessage(abs, part) {
-      if (abs >= 5)
-        return "Excluded – too many absences. Must improve participation.";
-      if (abs >= 3)
-        return "Warning – attendance low. Increase participation.";
-      if (abs < 3 && part >= 4)
-        return "Good attendance – Excellent participation!";
-      return "Keep it up!";
-    }
+    // Optional: trigger calculations after loading
+    if (typeof initAttendanceTable === "function") initAttendanceTable();
   });
-  </script>
+</script>
+
+  <script src="script.js"></script>
 </body>
 </html>
