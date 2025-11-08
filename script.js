@@ -3,7 +3,7 @@
    ============================ */
 
 /* Utility: safe query */
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
+const qs = (sel, ctx = document) => ctx.querySelector(sel);
 
 /* Wait once and initialize page-specific features */
 document.addEventListener("DOMContentLoaded", () => {
@@ -16,17 +16,17 @@ document.addEventListener("DOMContentLoaded", () => {
    Add Student Validation
    ============================ */
 function initAddStudent() {
-  const form = $("#studentForm");
+  const form = qs("#studentForm");
   if (!form) return;
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    document.querySelectorAll(".error-message").forEach(el => el.remove());
+    document.querySelectorAll(".error-message").forEach((el) => el.remove());
 
-    const id = $("#studentId");
-    const lastName = $("#lastName");
-    const firstName = $("#firstName");
-    const email = $("#email");
+    const id = qs("#studentId");
+    const lastName = qs("#lastName");
+    const firstName = qs("#firstName");
+    const email = qs("#email");
     let valid = true;
 
     function error(field, message) {
@@ -37,29 +37,31 @@ function initAddStudent() {
       valid = false;
     }
 
-    // === VALIDATION ===
     if (id.value.trim() === "") error(id, "Student ID cannot be empty.");
-    else if (!/^[0-9]+$/.test(id.value.trim())) error(id, "Student ID must contain only digits.");
+    else if (!/^[0-9]+$/.test(id.value.trim()))
+      error(id, "Student ID must contain only digits.");
 
-    if (lastName.value.trim() === "") error(lastName, "Last name cannot be empty.");
-    else if (!/^[A-Za-z]+$/.test(lastName.value.trim())) error(lastName, "Last name must contain letters only.");
+    if (lastName.value.trim() === "")
+      error(lastName, "Last name cannot be empty.");
+    else if (!/^[A-Za-z]+$/.test(lastName.value.trim()))
+      error(lastName, "Last name must contain letters only.");
 
-    if (firstName.value.trim() === "") error(firstName, "First name cannot be empty.");
-    else if (!/^[A-Za-z]+$/.test(firstName.value.trim())) error(firstName, "First name must contain letters only.");
+    if (firstName.value.trim() === "")
+      error(firstName, "First name cannot be empty.");
+    else if (!/^[A-Za-z]+$/.test(firstName.value.trim()))
+      error(firstName, "First name must contain letters only.");
 
-   if (email.value.trim() === "") error(email, "Email cannot be empty.");
-else if (!/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(email.value.trim())) error(email, "Invalid email format.");
-
-
+    if (email.value.trim() === "") error(email, "Email cannot be empty.");
+    else if (!/^[\\w.-]+@[\\w.-]+\\.\\w{2,}$/.test(email.value.trim()))
+      error(email, "Invalid email format.");
 
     if (!valid) return;
 
-    // === SAVE NEW STUDENT ===
     const newStudent = {
       id: id.value.trim(),
       lastName: lastName.value.trim(),
       firstName: firstName.value.trim(),
-      email: email.value.trim()
+      email: email.value.trim(),
     };
 
     const students = JSON.parse(localStorage.getItem("students") || "[]");
@@ -72,10 +74,10 @@ else if (!/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(email.value.trim())) error(email, "In
 }
 
 /* ============================
-   Attendance Table — fixed logic & storage
+   Attendance Table — logic & storage
    ============================ */
 function initAttendanceTable() {
-  const table = $("#attendanceTable");
+  const table = qs("#attendanceTable");
   if (!table) return;
   const tbody = table.querySelector("tbody");
   if (!tbody) return;
@@ -83,7 +85,6 @@ function initAttendanceTable() {
   const savedStudents = JSON.parse(localStorage.getItem("students") || "[]");
   const savedAttendance = JSON.parse(localStorage.getItem("attendanceData") || "[]");
 
-  // --- If there are saved students, show them; otherwise keep example rows ---
   if (savedStudents.length > 0) {
     tbody.innerHTML = "";
     savedStudents.forEach((s) => {
@@ -99,7 +100,6 @@ function initAttendanceTable() {
     });
   }
 
-  // --- Restore saved marks (✓) if available ---
   if (savedAttendance.length > 0) {
     const rows = Array.from(tbody.rows);
     const limit = Math.min(rows.length, savedAttendance.length);
@@ -112,7 +112,6 @@ function initAttendanceTable() {
     }
   }
 
-  // --- Click to toggle ✓ ---
   if (!table.dataset.listenerAdded) {
     table.addEventListener("click", (e) => {
       const td = e.target.closest("td");
@@ -128,14 +127,12 @@ function initAttendanceTable() {
     table.dataset.listenerAdded = "true";
   }
 
-  // --- Compute all rows on load ---
   tbody.querySelectorAll("tr").forEach((r) => computeAttendanceForRow(r));
   triggerChartUpdate();
 }
 
-/* === Save ✓ marks === */
 function saveAttendanceToStorage() {
-  const table = $("#attendanceTable");
+  const table = qs("#attendanceTable");
   if (!table) return;
   const data = Array.from(table.tBodies[0].rows).map((row) =>
     Array.from(row.children).map((td) => td.textContent.trim())
@@ -143,7 +140,6 @@ function saveAttendanceToStorage() {
   localStorage.setItem("attendanceData", JSON.stringify(data));
 }
 
-/* === Compute attendance for a single row === */
 function computeAttendanceForRow(row) {
   if (!row) return;
   const cells = Array.from(row.children);
@@ -182,7 +178,7 @@ function computeAttendanceForRow(row) {
 let globalChart = null;
 
 function computeTotalsFromTable() {
-  const table = $("#attendanceTable");
+  const table = qs("#attendanceTable");
   if (!table) return null;
   const rows = Array.from(table.tBodies[0].rows);
   const totals = { students: rows.length, present: 0, absent: 0, participated: 0 };
@@ -201,7 +197,7 @@ function computeTotalsFromTable() {
 }
 
 function initChartsIfNeeded() {
-  const canvas = $("#comboChart");
+  const canvas = qs("#comboChart");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
@@ -220,25 +216,26 @@ function initChartsIfNeeded() {
           data: [totals.present, totals.absent, totals.participated],
           backgroundColor: ["#4caf50", "#f44336", "#2b9bd3"],
           cutout: "65%",
-          borderColor: "rgba(255,255,255,0.7)",
-          borderWidth: 1
+          borderColor: "rgba(14, 13, 13, 0.7)",
+          borderWidth: 1,
         },
         {
           label: "Inner pie (students)",
           data: [totals.students, 0],
-          backgroundColor: ["#dcedc8", "#e9e9e9"],
+          backgroundColor: ["#f0e87fff", "#e9e9e9"],
           cutout: "0%",
-          borderWidth: 0
-        }
-      ]
+          borderColor: "rgba(14, 13, 13, 0.7)",
+          borderWidth: 0,
+        },
+      ],
     },
     options: {
       responsive: true,
       plugins: {
         legend: { position: "bottom" },
-        title: { display: true, text: "Attendance & Participation Summary" }
-      }
-    }
+        title: { display: true, text: "Attendance & Participation Summary" },
+      },
+    },
   });
 }
 
@@ -246,9 +243,33 @@ function triggerChartUpdate() {
   const totals = computeTotalsFromTable();
   if (!totals) return;
   localStorage.setItem("attendanceTotals", JSON.stringify(totals));
-  if (!$("#comboChart")) return;
+  if (!qs("#comboChart")) return;
   if (!globalChart) return initChartsIfNeeded();
   globalChart.data.datasets[0].data = [totals.present, totals.absent, totals.participated];
   globalChart.data.datasets[1].data = [totals.students, 0];
   globalChart.update();
 }
+
+/* =================================================
+   Exercise 5 — jQuery row interactions
+   ================================================= */
+$(document).ready(function () {
+  const $table = $("#attendanceTable");
+  if (!$table.length) return;
+
+  $table.on("mouseenter", "tbody tr", function () {
+    $(this).css("background-color", "#f3f8f3");
+  });
+
+  $table.on("mouseleave", "tbody tr", function () {
+    $(this).css("background-color", "");
+  });
+
+  $table.on("click", "tbody tr", function () {
+    const lastName = $(this).find("td").eq(0).text().trim();
+    const firstName = $(this).find("td").eq(1).text().trim();
+    const absences = $(this).find("td").eq(14).text().trim();
+    if (!lastName || !firstName) return;
+    alert(`👩‍🎓 Student: ${firstName} ${lastName}\nAbsences: ${absences}`);
+  });
+});

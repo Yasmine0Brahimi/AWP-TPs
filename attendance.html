@@ -67,33 +67,9 @@
       </table>
     </div>
   </main>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const tableBody = document.querySelector("#attendanceTable tbody");
-    const students = JSON.parse(localStorage.getItem("students") || "[]");
-
-    if (students.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="17">No students added yet.</td></tr>`;
-      return;
-    }
-
-    students.forEach(s => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${s.lastName}</td>
-        <td>${s.firstName}</td>
-        <td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td>
-        <td>0</td><td>0</td><td>New Student</td>
-      `;
-      tableBody.appendChild(row);
-    });
-
-    // Optional: trigger calculations after loading
-    if (typeof initAttendanceTable === "function") initAttendanceTable();
-  });
-</script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
+
