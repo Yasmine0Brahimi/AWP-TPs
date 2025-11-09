@@ -85,25 +85,6 @@ button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.
   padding: 40px 20px;
 }
 
-.hero {
-  background: linear-gradient(120deg, #eaf2ea, #dcead6);
-  border-radius: 16px;
-  padding: 50px 20px;
-  max-width: 900px;
-  box-shadow: 0 4px 10px rgba(34, 50, 40, 0.1);
-}
-
-.hero h1 {
-  font-size: 2rem;
-  color: #264e36;
-  margin-bottom: 12px;
-}
-
-.hero p {
-  color: #4f654f;
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-}
 
 .hero-buttons {
   display: flex;

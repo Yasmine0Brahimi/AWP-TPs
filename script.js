@@ -51,9 +51,18 @@ function initAddStudent() {
     else if (!/^[A-Za-z]+$/.test(firstName.value.trim()))
       error(firstName, "First name must contain letters only.");
 
-    if (email.value.trim() === "") error(email, "Email cannot be empty.");
-    else if (!/^[\\w.-]+@[\\w.-]+\\.\\w{2,}$/.test(email.value.trim()))
-      error(email, "Invalid email format.");
+    if (email.value.trim() === "") {
+  error(email, "Email cannot be empty.");
+} else {
+  const value = email.value.trim();
+  if (!value.includes("@")) {
+    error(email, "Email must contain '@'.");
+  } else if (!value.includes(".")) {
+    error(email, "Email must contain a domain (e.g. .com).");
+  } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value)) {
+    error(email, "Invalid email structure. Example: name@example.com");
+  }
+}
 
     if (!valid) return;
 
@@ -251,24 +260,29 @@ function triggerChartUpdate() {
 }
 
 /* =================================================
-   Exercise 5 — jQuery row interactions
+   Exercise 5 — jQuery row interactions (fixed)
    ================================================= */
 $(document).ready(function () {
-  const $table = $("#attendanceTable");
-  if (!$table.length) return;
+  const table = $("#attendanceTable");
+  if (!table.length) return;
 
-  $table.on("mouseenter", "tbody tr", function () {
+  // Highlight row on hover
+  table.on("mouseenter", "tbody tr", function () {
     $(this).css("background-color", "#f3f8f3");
   });
 
-  $table.on("mouseleave", "tbody tr", function () {
+  // Remove highlight when mouse leaves
+  table.on("mouseleave", "tbody tr", function () {
     $(this).css("background-color", "");
   });
 
-  $table.on("click", "tbody tr", function () {
-    const lastName = $(this).find("td").eq(0).text().trim();
-    const firstName = $(this).find("td").eq(1).text().trim();
-    const absences = $(this).find("td").eq(14).text().trim();
+  // ✅ Show alert only when clicking on the student's name (first two columns)
+  table.on("click", "tbody td:nth-child(1), tbody td:nth-child(2)", function (e) {
+    e.stopPropagation(); // prevent the click from triggering other handlers
+    const row = $(this).closest("tr");
+    const lastName = row.find("td").eq(0).text().trim();
+    const firstName = row.find("td").eq(1).text().trim();
+    const absences = row.find("td").eq(14).text().trim();
     if (!lastName || !firstName) return;
     alert(`👩‍🎓 Student: ${firstName} ${lastName}\nAbsences: ${absences}`);
   });
