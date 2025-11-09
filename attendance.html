@@ -20,7 +20,22 @@
 
   <main class="content">
     <h1>Attendance and Participation</h1>
-    <p class="instructions">Click a session cell to toggle present (✓). Table auto-calculates absences, participation counts and status color.</p>
+    <p class="instructions">
+      Click a session cell to toggle present (✓). Table auto-calculates absences,
+      participation counts and status color.
+    </p>
+
+    <!-- ✅ EXERCISE 6 & 7 CONTROLS -->
+    <div class="table-controls">
+      <input type="text" id="searchInput" placeholder="Search by Name..." />
+
+      <div class="buttons">
+        <button id="highlightBtn">Highlight Excellent Students</button>
+        <button id="resetBtn">Reset Colors</button>
+        <button id="sortAbsences">Sort by Absences (Ascending)</button>
+        <button id="sortParticipation">Sort by Participation (Descending)</button>
+      </div>
+    </div>
 
     <div class="table-container">
       <table id="attendanceTable" aria-label="Attendance table">
@@ -66,10 +81,12 @@
         </tbody>
       </table>
     </div>
+
+    <p id="sortMessage" class="sort-message"></p>
   </main>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-

@@ -33,6 +33,32 @@ body {
 .content { max-width: 1000px; margin: 32px auto; padding: 0 18px; }
 h1 { color: #2e4e2a; margin-bottom: 10px; font-size:1.6rem; }
 .instructions { color: #556a55; margin-bottom: 14px; font-style: italic; }
+.table-controls {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.table-controls input {
+  padding: 10px 12px;
+  border: 1px solid #c8d0c4;
+  border-radius: 8px;
+  width: 250px;
+  font-size: 1rem;
+}
+
+.table-controls .buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sort-message {
+  margin-top: 10px;
+  font-style: italic;
+  color: #3b7a57;
+}
 
 /* TABLE */
 .table-container { background:#fff; padding:14px; border-radius:12px; box-shadow: 0 4px 12px rgba(34,50,40,0.04); overflow-x:auto; }

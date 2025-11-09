@@ -222,14 +222,16 @@ function initChartsIfNeeded() {
       datasets: [
         {
           label: "Outer ring",
+          labels: ["Present", "Absent", "Participation"],
           data: [totals.present, totals.absent, totals.participated],
           backgroundColor: ["#4caf50", "#f44336", "#2b9bd3"],
           cutout: "65%",
           borderColor: "rgba(14, 13, 13, 0.7)",
           borderWidth: 1,
-        },
+        }
         {
-          label: "Inner pie (students)",
+          label: "Inner pie",
+          labels: ["Students"],
           data: [totals.students, 0],
           backgroundColor: ["#f0e87fff", "#e9e9e9"],
           cutout: "0%",
@@ -260,7 +262,7 @@ function triggerChartUpdate() {
 }
 
 /* =================================================
-   Exercise 5 — jQuery row interactions (fixed)
+   Exercise 5 — jQuery row interactions
    ================================================= */
 $(document).ready(function () {
   const table = $("#attendanceTable");
@@ -285,5 +287,73 @@ $(document).ready(function () {
     const absences = row.find("td").eq(14).text().trim();
     if (!lastName || !firstName) return;
     alert(`👩‍🎓 Student: ${firstName} ${lastName}\nAbsences: ${absences}`);
+  });
+});
+/* =================================================
+   Exercise 6 & 7 — jQuery Enhancements
+   ================================================= */
+$(document).ready(function () {
+  const tableBody = $("#attendanceTable tbody");
+  const searchInput = $("#searchInput");
+  const sortMessage = $("#sortMessage");
+
+  // === Exercise 6 ===
+  // Highlight Excellent Students (fewer than 3 absences)
+  $("#highlightBtn").on("click", function () {
+    tableBody.find("tr").each(function () {
+      const absences = parseInt($(this).find("td").eq(14).text().trim()) || 0;
+      if (absences < 3) {
+        $(this)
+          .css("background-color", "#d4edda")
+          .fadeTo(200, 0.5)
+          .fadeTo(200, 1);
+      }
+    });
+  });
+
+  // Reset Colors
+  $("#resetBtn").on("click", function () {
+    tableBody.find("tr").each(function () {
+      $(this).css("background-color", "");
+    });
+  });
+
+  // === Exercise 7 ===
+  // Search by name (Last or First)
+  searchInput.on("keyup", function () {
+    const query = $(this).val().toLowerCase();
+    tableBody.find("tr").filter(function () {
+      const last = $(this).find("td").eq(0).text().toLowerCase();
+      const first = $(this).find("td").eq(1).text().toLowerCase();
+      $(this).toggle(last.includes(query) || first.includes(query));
+    });
+  });
+
+  // Sort by Absences (Ascending)
+  $("#sortAbsences").on("click", function () {
+    const rows = tableBody.find("tr").get();
+    rows.sort(function (a, b) {
+      const absA = parseInt($(a).find("td").eq(14).text()) || 0;
+      const absB = parseInt($(b).find("td").eq(14).text()) || 0;
+      return absA - absB;
+    });
+    $.each(rows, function (index, row) {
+      tableBody.append(row);
+    });
+    sortMessage.text("Currently sorted by absences (ascending)");
+  });
+
+  // Sort by Participation (Descending)
+  $("#sortParticipation").on("click", function () {
+    const rows = tableBody.find("tr").get();
+    rows.sort(function (a, b) {
+      const partA = parseInt($(a).find("td").eq(15).text()) || 0;
+      const partB = parseInt($(b).find("td").eq(15).text()) || 0;
+      return partB - partA;
+    });
+    $.each(rows, function (index, row) {
+      tableBody.append(row);
+    });
+    sortMessage.text("Currently sorted by participation (descending)");
   });
 });
