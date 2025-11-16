@@ -228,7 +228,7 @@ function initChartsIfNeeded() {
           cutout: "65%",
           borderColor: "rgba(14, 13, 13, 0.7)",
           borderWidth: 1,
-        }
+        },
         {
           label: "Inner pie",
           labels: ["Students"],
