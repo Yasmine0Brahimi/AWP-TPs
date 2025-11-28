@@ -1,28 +1,41 @@
-# AWP Coursework Repository
+# AWP Coursework Repository — Attendance App Project
 
-This repository contains tutorial exercises and the final attendance app project for the AWP course.
+This repository contains tutorial exercises and the final attendance tracking application developed for the AWP course. It is organized for clarity, grading, and future portfolio use.
 
 ## 📂 Tutorials
 
-- `Tutorial_1`: JavaScript-based attendance app exercise with basic UI and local data handling.
-- `Tutorial_2`: PHP-based attendance app exercise using server-side logic and JSON storage.
+- `Tutorial_1`: JavaScript-based attendance app exercise.  
+  Focuses on front-end logic, local data handling, and basic UI interactions.
 
-## ✅ Final Project
+- `Tutorial_2`: PHP-based attendance app exercise.  
+  Demonstrates server-side scripting, JSON-based data storage, and modular PHP structure.
 
-- `Final_Attendance_App`: Complete attendance tracking system with:
-  - Role-based access (admin vs student)
-  - Real student names and attendance records
-  - Chart.js visualizations for attendance stats
-  - Clean UI with dark theme and modern accents
-  - Organized backend using PHP and JSON
+## ✅ Final Project — `Final_Attendance_App`
 
-## 🧪 Demo Credentials
+This is the complete attendance tracking system submitted for grading. It includes:
 
-Use these credentials to test the app:
-- **Admin**: `admin / admin123`
-- **Student**: `student1 / student123`
+- Role-based access (admin vs student)
+- Real student names and attendance records
+- Chart.js visualizations for attendance statistics
+- Clean UI with dark theme and modern accents
+- Organized backend using PHP and JSON
+- Modular code structure for maintainability
+
+### 🧪 Demo Credentials (for grading)
+
+Please use the following accounts to test the app:
+
+- **Admin account**  
+  Username: `admin`  
+  Password: `admin123`
+
+- **Student account**  
+  Username: `student1`  
+  Password: `student123`
 
 ## 📌 Notes
 
-- All folders are self-contained and organized for easy grading.
-- README and folder names are structured for clarity and future portfolio use.
+- All folders are self-contained and clearly named.
+- This structure is designed to help instructors quickly locate tutorials and the final submission.
+- The final project is fully functional and styled for presentation.
+
